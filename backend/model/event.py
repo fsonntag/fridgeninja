@@ -1,7 +1,9 @@
 __author__ = 'dowling'
-from model.db import conn
+from model.db import connection
 from mongokit import Document
+from model.user import User
 import datetime
+
 
 class Event(Document):
     structure = {
@@ -12,14 +14,6 @@ class Event(Document):
             'quantity': int
         }]
     }
-    #validators = {
-    #    'name': max_length(50),
-    #    'email': max_length(120)
-    #}
+    use_dot_notation = True
 
-    # timestamp
-    # user
-    # transaction items and counts
-    pass
-
-conn.register([Event])
+connection.register([Event])
