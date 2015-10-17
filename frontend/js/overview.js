@@ -1,12 +1,14 @@
 function append_fridge_content(name, quantity) {
     var grid = document.querySelector('#columns');
     var item = document.createElement('div');
-    var h = '<div class="col-md-2 fridge-item">';
-    h += '<div class="">';
+    var h = '<div class="col-sm-2 fridge-item">';
+    h += '<div class="row item-text-thing">';
+    h += '<div class="col-sm-6">';
     h += name;
     h += '</div>';
-    h += '<div class="">';
+    h += '<div class="col-sm-6">';
     h += quantity;
+    h += '</div>';
     h += '</div>';
     h += '</div>';
     salvattore['append_elements'](grid, [item]);

@@ -1,4 +1,4 @@
-@media screen and min-width 1px and max-width 767px {
+/*@media screen and min-width 1px and max-width 767px {
     #columns[data-columns]::before {
         content: '2 .col-xs-6';
     }
@@ -15,11 +15,23 @@
         content: '4 .col-md-3';
     }
 }
-
+*/
 .fridge-item{
-    background-color: rgba(220, 220, 220);
-    margin: 3px;
+    background-color: #EAEAEA;
+    margin: 10px;
     -webkit-box-shadow: 3px 3px 5px 0px rgba(112,112,112,1);
     -moz-box-shadow: 3px 3px 5px 0px rgba(112,112,112,1);
-    box-shadow: 3px 3px 5px 0px rgba(112,112,112,1);
+    box-shadow: 3px 3px 5px 0px rgba(162,162,162,1);
+    height: 150px;
+}
+.item-text-thing{
+    position: absolute;
+    bottom: 0;
+}
+h1{
+    background-color: aliceblue;
+    margin-top: 0px;
+    padding: 25px;
+    text-align: -webkit-center;
+    font-weight: bold;
 }
