@@ -13,8 +13,7 @@ user_collection = db.users
 def post_event():
     data = request.get_json(force=True)
 
-    user_id = data["user"]
-    user = user_collection.User.find_one({"_id": user_id})
+    user = user_collection.User.find_one({"name": data["username"]})
 
     event = event_collection.Event()
 

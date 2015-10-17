@@ -15,14 +15,14 @@ user_collection = db.user
 def post_user():
     data = request.get_json(force=True)
 
-    user = user_collection.User.find_one({"name": data["name"]})
+    user = user_collection.User.find_one({"name": data["username"]})
     if user:
         ln.warn("Tried to post user with name %s, but already exists. Aborted.".format(data["name"]))
         abort(409)
         return "User already exists"
 
     user = user_collection.User()
-    user.name = data['name']
+    user.name = data['username']
     user.events = []
     user.device = data['device']
     user.save()
@@ -30,10 +30,12 @@ def post_user():
     return jsonify(user=user.to_json_type())
 
 
-@user_blueprint.route("/<user_id>", methods=["GET"])
-def get_user(user_id):
-    user = user_collection.User.get_from_id(ObjectId(user_id))
+@user_blueprint.route("/<username>", methods=["GET"])
+def get_user(username):
+    user = user_collection.User.find_one({"name": username})
     return jsonify(user.to_json_type())
+
+
 
 
 @user_blueprint.route("/", methods=["GET"])
