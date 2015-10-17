@@ -2,7 +2,8 @@ function append_fridge_content(name, quantity) {
     request_gif(name, function (imageurl) {
         var grid = document.querySelector('#columns');
         var item = document.createElement('div');
-        var h = '<div class="col-xs-5 col-sm-4 col-md-2 fridge-item">';
+        var h = '<div class="col-xs-6 col-sm-4 col-md-2 fridge-item">';
+        h += '<div class="fridge-item-pad">';
         h += '<div class="giphy-image-overlay" alt=""></div>'
         h += '<img src="' + imageurl + '" class="giphy-image"></img>';
         h += '<div class="item-text-thing-outer">';
@@ -16,6 +17,7 @@ function append_fridge_content(name, quantity) {
         h += '</div>';
         h += '</div>';
         h += '</div>';
+        console.log(h);
         salvattore['append_elements'](grid, [item]);
         item.outerHTML = h;
     })
@@ -26,16 +28,14 @@ console.log("Hello!");
 $.getJSON("/inventory/", function (data) {
     console.log(data);
     $(data.inventory).each(function (index, item) {
-        console.log(item);
+        // console.log(item);
         append_fridge_content(item.name, item.quantity);
     });
 
-}).then(function () {
-    $(".fridge-item").unwrap();
 });
 function request_gif(query, callback) {
     $.getJSON("https://api.giphy.com/v1/gifs/search?q=" + query +"&api_key=dc6zaTOxFJmzC", function (data) {
-        console.log(data.data[0]);
+        // console.log(data.data[0]);
         callback(data.data[0].images.downsized.url);
     })
 

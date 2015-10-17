@@ -18,12 +18,15 @@
 */
 .fridge-item{
     background-color: #EAEAEA;
-    margin: 10px;
     -webkit-box-shadow: 3px 3px 5px 0px rgba(112,112,112,1);
     -moz-box-shadow: 3px 3px 5px 0px rgba(112,112,112,1);
     box-shadow: 3px 3px 5px 0px rgba(162,162,162,1);
     height: 150px;
-    padding: 0;
+}
+.fridge-item-pad {
+    padding: 10px;
+    width: 100%;
+    height: 100%;
 }
 .item-text-thing{
     margin: 10px;
@@ -44,10 +47,10 @@
 }
 
 .giphy-image{
+    object-fit: cover;
     height: 100%;
     width: 100%;
     position:absolute;
-    width:100%; height:100%;
     top:0; left:0;
     background:rgba(0,0,0,0.6);
     opacity:0.5;
