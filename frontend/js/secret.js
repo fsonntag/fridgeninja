@@ -1,21 +1,37 @@
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+username = getUrlParameter("username");
+
 function append_fridge_content(name, quantity) {
     request_gif(name, function (imageurl) {
         var grid = document.querySelector('#columns');
         var item = document.createElement('div');
-        var h = '<div class="col-xs-6 col-sm-4 col-md-2 fridge-item-pad">';
-        h += '<div class="fridge-item">';
-        h += '<div class="giphy-image-overlay" alt=""></div>'
-        h += '<img src="' + imageurl + '" class="giphy-image"></img>';
-        // h += '<div class="item-text-thing-outer row">';
-        // h += '<div class="row item-text-thing">';
+        var h = '<div class="col-xs-12 fridge-item">';
+        h += '<div class="fridge-item-pad">';
+        //h += '<img src="' + imageurl + '" class="giphy-image"></img>';
+        h += '<div class="item-text-thing-outer">';
+        h += '<div class="row item-text-thing">';
         h += '<div class="col-xs-6 item-name">';
-        h += name.charAt(0).toUpperCase() + name.slice(1);;
+        h += name;
         h += '</div>';
         h += '<div class="col-xs-6 item-count">';
         h += quantity;
         h += '</div>';
-        // h += '</div>';
-        // h += '</div>';
+        h += '</div>';
+        h += '</div>';
         h += '</div>';
         console.log(h);
         salvattore['append_elements'](grid, [item]);
