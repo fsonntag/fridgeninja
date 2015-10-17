@@ -1,6 +1,7 @@
 __author__ = 'dowling'
-from model.db import conn
+from model.db import connection
 from mongokit import Document
+from model.user import User
 import datetime
 
 class Event(Document):
@@ -12,7 +13,6 @@ class Event(Document):
             'quantity': int
         }]
     }
-
     use_dot_notation = True
 
-conn.register([Event])
+connection.register([Event])

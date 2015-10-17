@@ -1,6 +1,7 @@
 __author__ = 'dowling'
 from model.db import conn
 from mongokit import Document
+from model.db import connection
 from model.user import User
 
 class Fridge(Document):
@@ -11,7 +12,7 @@ class Fridge(Document):
             'quantity': int
         }]
 
-
+        'users': [User]
     }
 
     user_autorefs = True
