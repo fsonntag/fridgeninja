@@ -31,9 +31,9 @@
 .item-text-thing{
     margin: 10px;
 }
-.item-text-thing-outer{
+.item-name, .item-count{
     position: absolute;
-    bottom: 0;
+    bottom: 15px;
 }
 
 .item-name{
