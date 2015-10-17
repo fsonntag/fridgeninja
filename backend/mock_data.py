@@ -21,7 +21,7 @@ event5 = {"username": "Philipp", "transactions": {"lemonade": -1}}
 event6 = {"username": "Bene", "transactions": {"water": -1, "Spezi": 1}}
 event7 = {"username": "Felix", "transactions": {"beer": -5, "water": -2, "coke": 2}}
 event8 = {"username": "Bene", "transactions": {"beer": -6}}
-event9 = {"username": "Felix", "transactions": {"beer": 20, "water": 10, "lemonade": 2, "juice": -1}}
+event9 = {"username": "Felix", "transactions": {"beer": 20, "water": 10, "lemonade": 2, "juice": 1}}
 
 requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event1))
 requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event2))

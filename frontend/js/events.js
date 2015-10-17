@@ -3,11 +3,15 @@ function append_event_content(timestamp, username, transactions) {
     var item = document.createElement('div');
     var date = new Date(timestamp);
     var transaction_string = build_transaction_string(username, transactions);
-    var h = '<div class="">';
+    var h = '<div class="event-row">';
+    h += '<div class="time-string">';
     h += moment(date).format('MMM D YYYY, h:mm:s a');
     h += '</div>';
-    h += '<div class="">';
+    h += '<div class="transaction-string">';
     h += transaction_string;
+    h += '</div>';
+    h += '<hr class="seperator">';
+		h += '<div class="code" style="margin-top: -5px;"></div>';
     h += '</div>';
     salvattore['append_elements'](grid, [item]);
     item.outerHTML = h;
@@ -57,11 +61,11 @@ function build_transaction_string(username, transactions) {
   }
 
   if (plus_keys.length > 0 && minus_keys.length > 0) {
-    s += "took " + plus_s.substring(0, plus_s.length - 2) + " and put in " + minus_s.substring(0, minus_s.length - 2) + ".";
+    s += "put in " + plus_s.substring(0, plus_s.length - 2) + " and took " + minus_s.substring(0, minus_s.length - 2) + ".";
   } else if (plus_keys.length > 0 && minus_keys.length == 0) {
-    s += "took " + plus_s.substring(0, plus_s.length - 2) + ".";
+    s += "put in " + plus_s.substring(0, plus_s.length - 2) + ".";
   } else {
-    s += "put in " + minus_s.substring(0, minus_s.length - 2) + ".";
+    s += "took " + minus_s.substring(0, minus_s.length - 2) + ".";
   }
   return s;
 }
