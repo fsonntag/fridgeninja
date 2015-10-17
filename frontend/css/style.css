@@ -39,10 +39,12 @@
 .item-name{
     font-weight: bold;
     font-size: medium;
+    left: 25px;
 }
 .item-count{
     font-size: medium;
     text-align: right;
+    right: 30px;
 }
 
 .giphy-image{
