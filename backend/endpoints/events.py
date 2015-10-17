@@ -4,10 +4,9 @@ ln = logging.getLogger(__name__)
 
 from flask import request, Blueprint, jsonify
 from model.db import db
-from model.event import Event
 import datetime
-from bson.objectid import ObjectId
 from model.fridge import fridge
+
 events_blueprint = Blueprint("events", __name__, url_prefix="/events")
 
 fridge_collection = db.fridges
@@ -41,6 +40,7 @@ def post_event():
 
 @events_blueprint.route("/", methods=["GET"])
 def get_events():
+    # TODO: limit to x most recent
     events = event_collection.Event.find()
     return jsonify(events=[event.to_json_type() for event in events])
 
