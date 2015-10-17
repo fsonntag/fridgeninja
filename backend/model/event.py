@@ -8,10 +8,9 @@ class Event(Document):
     structure = {
         'user': User,
         'timestamp': datetime.datetime,
-        'transactions': [{
-            'item': unicode,
-            'quantity': int
-        }]
+        'transactions': {
+            unicode: int
+        },
     }
     use_dot_notation = True
     use_autorefs = True
