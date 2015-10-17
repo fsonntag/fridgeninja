@@ -71,9 +71,9 @@ function build_transaction_string(username, transactions) {
 }
 
 $.getJSON("/events/", function (data) {
-    console.log(data);
+    // console.log(data);
     $(data.events).each(function (index, event) {
-        console.log(event);
+        // console.log(event);
         append_event_content(event.timestamp, event.user.username, event.transactions);
     })
 });
