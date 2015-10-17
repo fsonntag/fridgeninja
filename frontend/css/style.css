@@ -1,0 +1,17 @@
+@media screen and min-width 1px and max-width 767px {
+    #columns[data-columns]::before {
+        content: '2 .col-xs-6';
+    }
+}
+
+@media screen and min-width768px and max-width 991px {
+    #columns[data-columns]::before {
+        content: '3 .col-sm-4';
+    }
+}
+
+@media screen and min-width992px and max-width 9999px {
+    #columns[data-columns]::before {
+        content: '4 .col-md-3';
+    }
+}

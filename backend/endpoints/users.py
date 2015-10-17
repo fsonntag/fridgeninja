@@ -3,7 +3,6 @@ import logging
 ln = logging.getLogger(__name__)
 from flask import request, Blueprint, jsonify, abort
 from model.db import db
-from bson.objectid import ObjectId
 
 
 user_blueprint = Blueprint("user", __name__, url_prefix="/users")
