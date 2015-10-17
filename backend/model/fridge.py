@@ -16,7 +16,6 @@ class Fridge(Document):
     use_dot_notation = True
     use_autorefs = True
 
-
     def take_item(self, item, quantity):
         old_quantity = self.content.get(item, None)
         if quantity < 0:  # take out
