@@ -1,0 +1,16 @@
+backend/.idea/.name
+backend/.idea/backend.iml
+backend/.idea/encodings.xml
+backend/.idea/misc.xml
+backend/.idea/modules.xml
+backend/.idea/vcs.xml
+backend/.idea/workspace.xml
+backend/.idea/scopes/scope_settings.xml
+db-data/local.0
+db-data/local.ns
+db-data/mongod.lock
+db-data/storage.bson
+db-data/testdb.0
+db-data/testdb.ns
+db-data/journal/j._0
+db-data/journal/lsn
