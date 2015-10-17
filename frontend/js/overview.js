@@ -1,11 +1,11 @@
 function append_fridge_content(name, quantity) {
     var grid = document.querySelector('#columns');
     var item = document.createElement('div');
-    var h = '<div class="panel panel-primary">';
-    h += '<div class="panel-heading">';
+    var h = '<div class="col-md-3">';
+    h += '<div class="">';
     h += name;
     h += '</div>';
-    h += '<div class="panel-body">';
+    h += '<div class="">';
     h += quantity;
     h += '</div>';
     h += '</div>';
