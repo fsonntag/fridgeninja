@@ -1,5 +1,5 @@
 __author__ = 'dowling'
-from fridge_server import app
+# from fridge_server import app
 from mongokit import Connection
 
 # configuration

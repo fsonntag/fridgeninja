@@ -1,14 +1,15 @@
 __author__ = 'dowling'
-from model.db import conn
-from model.event import Event
 
-class User(object):
+from mongokit import Document
+from model.db import connection
+
+class User(Document):
     structure = {
         'name': unicode,
-        'events': [Event]
+        'events': list
     }
 
-    user_autorefs = True
+    use_autorefs = True
     use_dot_notation = True
 
-conn.register([User])
+connection.register([User])
