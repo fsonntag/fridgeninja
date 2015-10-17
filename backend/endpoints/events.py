@@ -5,6 +5,7 @@ from model.event import Event
 import datetime
 events_blueprint = Blueprint("events", __name__, url_prefix="/events")
 
+fridge_collection = db.fridges
 event_collection = db.events
 
 @events_blueprint.route("/", methods=["POST"])
@@ -17,8 +18,10 @@ def post_event():
 
     transactions = data["transactions"]
     event.transactions = transactions
-    for transaction in transactions:
-        fridge.take_item() # todo get fridge reference
+    fridge = fridge_collection.Fridge.find_one() # todo is this fine?
+
+    for item, quantity in transactions.items():
+        fridge.transact_item(item, quantity)
 
 
     return

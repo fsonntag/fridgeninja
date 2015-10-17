@@ -1,4 +1,7 @@
 __author__ = 'dowling'
+import logging
+logging.basicConfig(format="%(asctime)s %(levelname)-8s %(name)-18s: %(message)s", level=logging.DEBUG)
+
 from flask import Flask
 
 app = Flask(__name__, static_path="/")

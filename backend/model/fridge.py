@@ -19,16 +19,16 @@ class Fridge(Document):
 
     def take_item(self, item, quantity):
         old_quantity = self.content.get(item, None)
-        if item is None:
-            ln.warn("Attempting to take item %s out of fridge, but previous value was %s" % (item, old_quantity))
+        if quantity < 0:  # take out
             old_quantity = 0
+            if item is None:
+                ln.warn("Attempting to take item %s out of fridge, but previous value was %s" % (item, old_quantity))
 
-        self.content[item] = old_quantity - quantity
+        else:  # put in
+            ln.debug("Putting %s of %s into fridge" % (quantity, item))
 
-    def put_item(self, item, quantity):
-        ln.debug("Putting %s of %s into fridge" % (quantity, item))
-        old_quantity = self.content.get(item, 0)
         self.content[item] = old_quantity + quantity
+
 
 connection.register([Fridge])
 
