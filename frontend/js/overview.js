@@ -6,16 +6,16 @@ function append_fridge_content(name, quantity) {
         h += '<div class="fridge-item">';
         h += '<div class="giphy-image-overlay" alt=""></div>'
         h += '<img src="' + imageurl + '" class="giphy-image"></img>';
-        h += '<div class="item-text-thing-outer row">';
-        h += '<div class="row item-text-thing">';
+        // h += '<div class="item-text-thing-outer row">';
+        // h += '<div class="row item-text-thing">';
         h += '<div class="col-xs-6 item-name">';
         h += name.charAt(0).toUpperCase() + name.slice(1);;
         h += '</div>';
         h += '<div class="col-xs-6 item-count">';
         h += quantity;
         h += '</div>';
-        h += '</div>';
-        h += '</div>';
+        // h += '</div>';
+        // h += '</div>';
         h += '</div>';
         console.log(h);
         salvattore['append_elements'](grid, [item]);
