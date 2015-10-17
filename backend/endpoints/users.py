@@ -8,21 +8,21 @@ from bson.objectid import ObjectId
 
 user_blueprint = Blueprint("user", __name__, url_prefix="/users")
 
-user_collection = db.user
+user_collection = db.users
 
 
 @user_blueprint.route("/", methods=["POST"])
 def post_user():
     data = request.get_json(force=True)
 
-    user = user_collection.User.find_one({"name": data["username"]})
+    user = user_collection.User.find_one({"username": data["username"]})
     if user:
-        ln.warn("Tried to post user with name %s, but already exists. Aborted.".format(data["name"]))
+        ln.warn("Tried to post user with name %s, but already exists. Aborted.".format(data["username"]))
         abort(409)
         return "User already exists"
 
     user = user_collection.User()
-    user.name = data['username']
+    user.username = data['username']
     user.events = []
     user.device = data['device']
     user.save()
@@ -32,7 +32,7 @@ def post_user():
 
 @user_blueprint.route("/<username>", methods=["GET"])
 def get_user(username):
-    user = user_collection.User.find_one({"name": username})
+    user = user_collection.User.find_one({"username": username})
     return jsonify(user.to_json_type())
 
 

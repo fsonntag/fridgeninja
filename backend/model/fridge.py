@@ -4,30 +4,42 @@ ln = logging.getLogger(__name__)
 from mongokit import Document
 from model.db import connection
 from model.user import User
+from model.db import db
 
 
 class Fridge(Document):
     structure = {
         'content': {
             unicode: int
-        },
-        'users': [User]
+        }
     }
     use_dot_notation = True
     use_autorefs = True
 
-    def take_item(self, item, quantity):
+    def transact_item(self, item, quantity):
+
         old_quantity = self.content.get(item, None)
+        print item, quantity, old_quantity
+
         if quantity < 0:  # take out
-            old_quantity = 0
-            if item is None:
+            if old_quantity is None:
+                old_quantity = 0
                 ln.warn("Attempting to take item %s out of fridge, but previous value was %s" % (item, old_quantity))
 
         else:  # put in
-            ln.debug("Putting %s of %s into fridge" % (quantity, item))
+            if old_quantity is None:
+                old_quantity = 0
 
+
+                ln.warn("Adding new item %s (quantity %s)" % (item, old_quantity))
+            ln.debug("Putting %s of %s into fridge" % (quantity, item))
+        print old_quantity
         self.content[item] = old_quantity + quantity
 
-
 connection.register([Fridge])
+
+fridge_collection = db.fridges
+fridge = fridge_collection.Fridge()
+fridge.save()
+
 
