@@ -1,7 +1,7 @@
 __author__ = 'dowling'
 import logging
 ln = logging.getLogger(__name__)
-from flask import request, Blueprint, jsonify
+from flask import request, Blueprint, jsonify, abort
 from model.db import db
 from bson.objectid import ObjectId
 
@@ -15,15 +15,19 @@ user_collection = db.user
 def post_user():
     data = request.get_json(force=True)
 
+    user = user_collection.User.find_one({"name": data["name"]})
+    if user:
+        ln.warn("Tried to post user with name %s, but already exists. Aborted.".format(data["name"]))
+        abort(409)
+        return "User already exists"
+
     user = user_collection.User()
     user.name = data['name']
     user.events = []
     user.device = data['device']
     user.save()
-    # ln.debug(type(user.to_json()))
 
     return jsonify(user=user.to_json_type())
-
 
 
 @user_blueprint.route("/<user_id>", methods=["GET"])
