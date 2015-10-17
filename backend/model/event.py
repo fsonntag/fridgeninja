@@ -12,14 +12,7 @@ class Event(Document):
             'quantity': int
         }]
     }
-    #validators = {
-    #    'name': max_length(50),
-    #    'email': max_length(120)
-    #}
 
-    # timestamp
-    # user
-    # transaction items and counts
-    pass
+    use_dot_notation = True
 
 conn.register([Event])
