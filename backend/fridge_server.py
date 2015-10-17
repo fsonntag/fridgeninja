@@ -3,6 +3,7 @@ import logging
 logging.basicConfig(format="%(asctime)s %(levelname)-8s %(name)-18s: %(message)s", level=logging.DEBUG)
 
 from flask import Flask
+from settings import host, port
 
 app = Flask(__name__, static_path="/")
 app.config.from_object(__name__)
@@ -18,4 +19,4 @@ app.register_blueprint(fridge_blueprint)
 app.register_blueprint(admin_blueprint)
 
 if __name__ == "__main__":
-    app.run(debug=True, host="localhost", port=8081)  # TODO change to 0.0.0.0
+    app.run(debug=True, host=host, port=port)
