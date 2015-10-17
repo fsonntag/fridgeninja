@@ -5,7 +5,7 @@ function append_event_content(timestamp, username, transactions) {
     var transaction_string = build_transaction_string(username, transactions);
     var h = '<div class="event-row">';
     h += '<div class="time-string">';
-    h += moment(date).format('MMM D YYYY, h:mm:s a');
+    h += moment(date).format('MMM D YYYY, hh:mm a');
     h += '</div>';
     h += '<div class="transaction-string">';
     h += transaction_string;

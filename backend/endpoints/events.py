@@ -41,7 +41,7 @@ def post_event():
 @events_blueprint.route("/", methods=["GET"])
 def get_events():
     events = event_collection.Event.find()
-    if request.args["page"]:
+    if "page" in request.args:
         page_number = int(request.args["page"])
         events = events[page_number * 10 : page_number * 10 + 10]
     return jsonify(events=[event.to_json_type() for event in events])

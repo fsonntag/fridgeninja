@@ -23,7 +23,7 @@ event7 = {"username": "Felix", "transactions": {"beer": -5, "water": -2, "coke":
 event8 = {"username": "Bene", "transactions": {"beer": -6}}
 event9 = {"username": "Felix", "transactions": {"beer": 20, "water": 10, "lemonade": 2, "juice": 1}}
 event10 = {"username": "Philipp", "transactions": {"beer": -20, "vodka": -1, "coke": -2, "lemonade": -3}}
-event11 = {"username": "Bene", "transactions": {"jagermeister": -3, "water": -6, "juice": -1}}
+event11 = {"username": "Bene", "transactions": {"Jagermeister": -3, "water": -6, "juice": -1}}
 
 
 for i in xrange(11):
