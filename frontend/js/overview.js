@@ -28,7 +28,7 @@ console.log("Hello!");
 $.getJSON("/inventory/", function (data) {
     console.log(data);
     $(data.inventory).each(function (index, item) {
-        // console.log(item);
+        console.log(item);
         append_fridge_content(item.name, item.quantity);
     });
 
