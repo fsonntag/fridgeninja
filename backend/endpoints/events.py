@@ -36,6 +36,6 @@ def get_events():
 
 @events_blueprint.route("/<event_id>", methods=["GET"])
 def get_event(event_id):
-    event = event_collection.Event.find_one() # TODO find by id
+    event = Event.get_from_id(event_id) #TODO not done
 
     return
