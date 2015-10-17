@@ -6,8 +6,7 @@ from model.db import connection
 from model.user import User
 
 
-
-class Fridge(object):
+class Fridge(Document):
     structure = {
         'content': {
             unicode: int

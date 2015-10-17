@@ -18,7 +18,7 @@ def post_event():
     transactions = data["transactions"]
     event.transactions = transactions
     for transaction in transactions:
-        fridge.take
+        fridge.take_item() # todo get fridge reference
 
 
     return
