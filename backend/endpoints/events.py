@@ -36,7 +36,7 @@ def post_event():
 @events_blueprint.route("/", methods=["GET"])
 def get_events():
     events = event_collection.Event.find()
-    return jsonify(events=[event.to_json() for event in events])
+    return jsonify(events=[event.to_json_type() for event in events])
 
 @events_blueprint.route("/<event_id>", methods=["GET"])
 def get_event(event_id):
