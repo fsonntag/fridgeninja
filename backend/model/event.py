@@ -9,7 +9,6 @@ class Event(Document):
     use_dot_notation = True
     use_autorefs = True
     structure = {
-        'user': User,
         'timestamp': datetime.datetime,
         'transactions': {
             unicode: int

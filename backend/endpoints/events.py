@@ -1,8 +1,13 @@
 __author__ = 'dowling'
+import logging
+ln = logging.getLogger(__name__)
+
 from flask import request, Blueprint, jsonify
 from model.db import db
 from model.event import Event
 import datetime
+from bson.objectid import ObjectId
+from model.fridge import fridge
 events_blueprint = Blueprint("events", __name__, url_prefix="/events")
 
 fridge_collection = db.fridges
@@ -13,24 +18,28 @@ user_collection = db.users
 def post_event():
     data = request.get_json(force=True)
 
-    user_id = data["user"]
-    user = user_collection.User.find_one({"_id": user_id})
+    user_id = ObjectId(data["user"])
+    user = user_collection.User.get_from_id(user_id)
+
+    if user is None:
+        raise ValueError("No user with that ID was found!")
 
     event = event_collection.Event()
 
-    event.user = user
     event.timestamp = datetime.datetime.now()
     transactions = data["transactions"]
     event.transactions = transactions
     event.save()
 
     user.events.append(event)
+    user.save()
 
-    fridge = fridge_collection.Fridge.find_one()  # todo is this fine?
     for item, quantity in transactions.items():
         fridge.transact_item(item, quantity)
 
-    return jsonify(event=event.to_json())
+    fridge.save()
+
+    return jsonify(event=event.to_json_type())
 
 
 @events_blueprint.route("/", methods=["GET"])

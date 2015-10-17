@@ -8,7 +8,7 @@ from bson.objectid import ObjectId
 
 user_blueprint = Blueprint("user", __name__, url_prefix="/users")
 
-user_collection = db.user
+user_collection = db.users
 
 
 @user_blueprint.route("/", methods=["POST"])

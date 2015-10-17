@@ -12,7 +12,4 @@ class User(Document):
         'device': unicode
     }
 
-    use_autorefs = True
-    use_dot_notation = True
-
 connection.register([User])
