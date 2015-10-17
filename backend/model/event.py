@@ -6,7 +6,7 @@ import datetime
 
 class Event(Document):
     structure = {
-        'user': unicode,
+        'user': User,
         'timestamp': datetime.datetime,
         'transactions': [{
             'item': unicode,
@@ -14,5 +14,6 @@ class Event(Document):
         }]
     }
     use_dot_notation = True
+    use_autorefs = True
 
 connection.register([Event])
