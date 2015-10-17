@@ -17,5 +17,9 @@
 }
 
 .fridge-item{
-    border-style: solid;
+    background-color: rgba(220, 220, 220);
+    margin: 3px;
+    -webkit-box-shadow: 3px 3px 5px 0px rgba(112,112,112,1);
+    -moz-box-shadow: 3px 3px 5px 0px rgba(112,112,112,1);
+    box-shadow: 3px 3px 5px 0px rgba(112,112,112,1);
 }
