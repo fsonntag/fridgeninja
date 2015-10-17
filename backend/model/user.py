@@ -8,7 +8,8 @@ class User(Document):
     use_dot_notation = True
     structure = {
         'name': unicode,
-        'events': list
+        'events': list,
+        'device': unicode
     }
 
     use_autorefs = True
