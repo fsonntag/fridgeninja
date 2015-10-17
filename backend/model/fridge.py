@@ -3,7 +3,6 @@ import logging
 ln = logging.getLogger(__name__)
 from mongokit import Document
 from model.db import connection
-from model.user import User
 from model.db import db
 
 
