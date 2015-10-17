@@ -4,7 +4,10 @@ from mongokit import Document
 from model.user import User
 import datetime
 
+
 class Event(Document):
+    use_dot_notation = True
+    use_autorefs = True
     structure = {
         'user': User,
         'timestamp': datetime.datetime,
@@ -12,7 +15,6 @@ class Event(Document):
             unicode: int
         },
     }
-    use_dot_notation = True
-    use_autorefs = True
+
 
 connection.register([Event])
