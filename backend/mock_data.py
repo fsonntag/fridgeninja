@@ -38,3 +38,15 @@ for i in xrange(11):
     requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event9))
     requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event10))
     requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event11))
+
+
+requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event1))
+requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event2))
+requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event3))
+requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event4))
+requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event5))
+requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event6))
+requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event7))
+requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event8))
+requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event9))
+requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event10))
