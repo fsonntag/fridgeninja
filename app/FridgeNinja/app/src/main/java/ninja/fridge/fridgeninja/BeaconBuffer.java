@@ -64,7 +64,7 @@ public class BeaconBuffer implements BeaconsUpdateCallback {
         Collections.sort(list, new Comparator<BeaconInfo>() {
             @Override
             public int compare(BeaconInfo lhs, BeaconInfo rhs) {
-                return (int)(rhs.minDistance - lhs.minDistance);
+                return (int)(lhs.minDistance - rhs.minDistance);
             }
         });
         return list;

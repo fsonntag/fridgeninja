@@ -15,8 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.altbeacon.beacon.Beacon;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -24,10 +22,10 @@ import java.util.LinkedList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FridgeInterfaceFragment#newInstance} factory method to
+ * Use the {@link DiagnosisFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FridgeInterfaceFragment extends Fragment implements SensorEventListener, MatchedBeaconUpdateCallback {
+public class DiagnosisFragment extends Fragment implements SensorEventListener, MatchedBeaconUpdateCallback {
     public void setCallback(FridgeCallback callback) {
         this.callback = callback;
     }
@@ -74,8 +72,8 @@ public class FridgeInterfaceFragment extends Fragment implements SensorEventList
      * @return A new instance of fragment FridgeInterfaceFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FridgeInterfaceFragment newInstance() {
-        FridgeInterfaceFragment fragment = new FridgeInterfaceFragment();
+    public static DiagnosisFragment newInstance() {
+        DiagnosisFragment fragment = new DiagnosisFragment();
         Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
@@ -83,7 +81,7 @@ public class FridgeInterfaceFragment extends Fragment implements SensorEventList
         return fragment;
     }
 
-    public FridgeInterfaceFragment() {
+    public DiagnosisFragment() {
         // Required empty public constructor
     }
 

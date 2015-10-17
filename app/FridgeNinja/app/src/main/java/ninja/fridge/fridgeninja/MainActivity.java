@@ -6,19 +6,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -29,13 +24,12 @@ import org.altbeacon.beacon.Region;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-        BeaconConsumer, FridgeInterfaceFragment.FridgeCallback {
+        BeaconConsumer, DiagnosisFragment.FridgeCallback {
 
     private BeaconManager beaconManager;
 
@@ -158,7 +152,7 @@ public class MainActivity extends ActionBarActivity
         // update the main content by replacing fragments
         Fragment newFragment;
         if(position == 0) {
-            FridgeInterfaceFragment fragment = FridgeInterfaceFragment.newInstance();
+            DiagnosisFragment fragment = DiagnosisFragment.newInstance();
             fragment.setCallback(this);
             newFragment = fragment;
         } else if(position == 1) {
