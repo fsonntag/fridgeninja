@@ -28,7 +28,7 @@ import ninja.fridge.fridgeninja.dummy.DummyContent;
  * <p/>
  */
 public class AvailableBeaconsFragment extends Fragment implements AbsListView.OnItemClickListener,
-        MainActivity.BeaconsUpdateCallback {
+        BeaconsUpdateCallback {
 
 //    // TODO: Rename parameter arguments, choose names that match
 //    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -65,6 +65,7 @@ public class AvailableBeaconsFragment extends Fragment implements AbsListView.On
      * fragment (e.g. upon screen orientation changes).
      */
     public AvailableBeaconsFragment() {
+        setEmptyText("No beacons in range :(");
     }
 
     @Override
