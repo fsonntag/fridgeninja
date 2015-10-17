@@ -11,4 +11,4 @@ fridge_collection = db.fridge
 @fridge_blueprint.route("/", methods=["GET"])
 def get_inventory():
     fridge = fridge_collection.Fridge.find_one()
-    return jsonify(inventory=fridge.content.to_json())
+    return jsonify(inventory=fridge.content.to_json_type())
