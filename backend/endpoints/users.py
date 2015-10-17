@@ -15,6 +15,7 @@ def post_user():
     data = request.get_json(force=True)
 
     # user_collection.find_one({'name': data['name']})
+    #TODO check if exists
 
 
     user = user_collection.User()
@@ -22,10 +23,14 @@ def post_user():
     user.events = []
     user.device = data['device']
     user.save()
+    # ln.debug(type(user.to_json()))
+    return user.to_json()
 
-    ln.debug("Posted user %s with device %s and ID %s" % (user.name, user.device, user._id))
-    return "Posted user %s with device %s and ID %s" % (user.name, user.device, user._id)
 
-@user_blueprint.route("", methods=["GET"])
-def get_user():
-    pass
+@user_blueprint.route("/<user_id>", methods=["GET"])
+def get_user(user_id):
+    user = user_collection.User.get_from_id(user_id)
+    ln.debug(user)
+    return jsonify(user.to_json())
+
+#TODO get all users
