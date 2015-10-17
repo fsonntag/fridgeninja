@@ -6,19 +6,15 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import android.view.Window;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -29,20 +25,61 @@ import org.altbeacon.beacon.Region;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-        BeaconConsumer {
+        BeaconConsumer, DiagnosisFragment.FridgeCallback {
 
     private BeaconManager beaconManager;
 
-    public interface BeaconsUpdateCallback {
-        public void beaconsChanged(Collection<Beacon> newBeacons);
+    private BeaconBuffer buffer = new BeaconBuffer();
+
+    @Override
+    public void opened() {
+
     }
 
+    @Override
+    public void closed() {
+        buffer.stopMonitoring();
+        List<BeaconBuffer.BeaconInfo> beaconInfos = buffer.orderedResults();
+        for(MatchedBeaconUpdateCallback callback : matchedUpdateCallbacks) {
+            callback.beaconsChanged(beaconInfos);
+        }
+    }
+
+    @Override
+    public void startOpening() {
+        buffer.reset();
+        buffer.startMonitoring();
+    }
+
+    @Override
+    public void startClosing() {
+
+    }
+
+    public MainActivity() {
+    }
+
+    private ArrayList<WebviewCallback> webviewCallbacks = new ArrayList<>();
     private ArrayList<BeaconsUpdateCallback> updateCallbacks = new ArrayList<>();
+    private ArrayList<MatchedBeaconUpdateCallback> matchedUpdateCallbacks = new ArrayList<>();
+
+
+    public void bindWebviewCallback(WebviewCallback callback) {
+        webviewCallbacks.add(callback);
+    }
+
+    public void unbindBeaconsUpdateCallback(WebviewCallback callback) {
+        webviewCallbacks.remove(callback);
+    }
+
+    public void bindMatchedUpdateCallback(MatchedBeaconUpdateCallback callback) {
+        matchedUpdateCallbacks.add(callback);
+    }
 
     public void bindBeaconsUpdateCallback(BeaconsUpdateCallback callback) {
         updateCallbacks.add(callback);
@@ -50,6 +87,9 @@ public class MainActivity extends ActionBarActivity
 
     public void unbindBeaconsUpdateCallback(BeaconsUpdateCallback callback) {
         updateCallbacks.remove(callback);
+    }
+    public void unbindBeaconsUpdateCallback(MatchedBeaconUpdateCallback callback) {
+        matchedUpdateCallbacks.remove(callback);
     }
 
     @Override
@@ -72,12 +112,6 @@ public class MainActivity extends ActionBarActivity
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
                 updateBeacons(beacons);
-
-
-//                Log.w("Beacons", beacons.size() + "beacons in range");
-//                for (Beacon b : beacons) {
-//                    Log.i("Beacons", "Beacon" + b.toString() + " Distance [m] " + b.getDistance());
-//                }
             }
         });
 
@@ -102,6 +136,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_PROGRESS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -122,6 +157,8 @@ public class MainActivity extends ActionBarActivity
         //        setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
         beaconManager.bind(this);
+
+        updateCallbacks.add(buffer);
     }
 
     @Override
@@ -129,13 +166,16 @@ public class MainActivity extends ActionBarActivity
         // update the main content by replacing fragments
         Fragment newFragment;
         if(position == 0) {
-            newFragment = FridgeInterfaceFragment.newInstance();
+            newFragment = MountedModeFragment.newInstance();
         } else if(position == 1) {
             newFragment = AvailableBeaconsFragment.newInstance();
+        } else if(position == 2) {
+            DiagnosisFragment fragment = DiagnosisFragment.newInstance();
+            fragment.setCallback(this);
+            newFragment = fragment;
         } else {
             newFragment = PlaceholderFragment.newInstance(position + 1);
         }
-
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()

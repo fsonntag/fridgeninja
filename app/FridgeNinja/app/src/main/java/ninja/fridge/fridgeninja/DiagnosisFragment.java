@@ -11,17 +11,40 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FridgeInterfaceFragment#newInstance} factory method to
+ * Use the {@link DiagnosisFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FridgeInterfaceFragment extends Fragment implements SensorEventListener {
+public class DiagnosisFragment extends Fragment implements SensorEventListener, MatchedBeaconUpdateCallback {
+    public void setCallback(FridgeCallback callback) {
+        this.callback = callback;
+    }
+
+    @Override
+    public void beaconsChanged(final Collection<BeaconBuffer.BeaconInfo> newBeacons) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                View view = getView();
+                if(view != null) {
+                    adapter.clear();
+                    adapter.addAll(newBeacons);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+    }
 //    // TODO: Rename parameter arguments, choose names that match
 //    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 //    private static final String ARG_PARAM1 = "param1";
@@ -31,7 +54,16 @@ public class FridgeInterfaceFragment extends Fragment implements SensorEventList
 //    private String mParam1;
 //    private String mParam2;
 
-    private Activity mActivity;
+    public interface FridgeCallback {
+        public void opened();
+        public void closed();
+        public void startOpening();
+        public void startClosing();
+    }
+
+    private MainActivity mActivity;
+    private FridgeCallback callback;
+
 
     /**
      * Use this factory method to create a new instance of
@@ -40,8 +72,8 @@ public class FridgeInterfaceFragment extends Fragment implements SensorEventList
      * @return A new instance of fragment FridgeInterfaceFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FridgeInterfaceFragment newInstance() {
-        FridgeInterfaceFragment fragment = new FridgeInterfaceFragment();
+    public static DiagnosisFragment newInstance() {
+        DiagnosisFragment fragment = new DiagnosisFragment();
         Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
@@ -49,7 +81,7 @@ public class FridgeInterfaceFragment extends Fragment implements SensorEventList
         return fragment;
     }
 
-    public FridgeInterfaceFragment() {
+    public DiagnosisFragment() {
         // Required empty public constructor
     }
 
@@ -62,17 +94,45 @@ public class FridgeInterfaceFragment extends Fragment implements SensorEventList
 //        }
     }
 
+    ArrayAdapter<BeaconBuffer.BeaconInfo> adapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fridge_interface, container, false);
+        View view = inflater.inflate(R.layout.fragment_fridge_interface, container, false);
+        ((TextView)view.findViewById(android.R.id.empty)).setText("No beacons");
+        adapter = new ArrayAdapter<BeaconBuffer.BeaconInfo>(mActivity, android.R.layout.simple_list_item_2,
+                android.R.id.text1, new ArrayList<BeaconBuffer.BeaconInfo>()) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+                TextView text2 = (TextView) view.findViewById(android.R.id.text2);
+
+                BeaconBuffer.BeaconInfo info = getItem(position);
+
+                text1.setText(info.beacon.getBluetoothAddress());
+                text2.setText("Distance " + info.minDistance + "m");
+                return view;
+            }
+        };
+        ((ListView)view.findViewById(android.R.id.list)).setAdapter(adapter);
+        return view;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = activity;
+
+        try {
+            mActivity = (MainActivity) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must be MainActivity");
+        }
+
+        mActivity.bindMatchedUpdateCallback(this);
 
         sensorMan = (SensorManager)activity.getSystemService(Context.SENSOR_SERVICE);
         gyro = sensorMan.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
@@ -81,6 +141,7 @@ public class FridgeInterfaceFragment extends Fragment implements SensorEventList
     @Override
     public void onDetach() {
         super.onDetach();
+        mActivity.unbindBeaconsUpdateCallback(this);
         mActivity = null;
     }
 
@@ -141,7 +202,7 @@ public class FridgeInterfaceFragment extends Fragment implements SensorEventList
 
         if(avg > magicOpenConstant) {
             // first run: determine if positive opens or closes
-            if(openDirection == 0 && y > magicOpenConstant) {
+            if(openDirection == 0 && abs > magicOpenConstant) {
                 if(y < 0) {
                     openDirection = -1;
                 } else {
@@ -152,18 +213,30 @@ public class FridgeInterfaceFragment extends Fragment implements SensorEventList
             // opening or closing
             if(closed) {
                 opening = true;
+                if(callback != null) {
+                    callback.startOpening();
+                }
             } else {
                 closing = true;
+                if(callback != null) {
+                    callback.startClosing();
+                }
             }
         } else {
             // open or closed if we did something
             if(opening) {
                 closed = false;
                 opening = false;
+                if(callback != null) {
+                    callback.opened();
+                }
             }
             if(closing) {
                 closed = true;
                 closing = false;
+                if(callback != null) {
+                    callback.closed();
+                }
             }
         }
 
