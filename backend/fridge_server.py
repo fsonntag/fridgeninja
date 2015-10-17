@@ -3,6 +3,7 @@ import logging
 logging.basicConfig(format="%(asctime)s %(levelname)-8s %(name)-18s: %(message)s", level=logging.DEBUG)
 
 from flask import Flask, send_from_directory
+from settings import host, port
 
 app = Flask(__name__, static_path="/")
 app.config.from_object(__name__)
@@ -28,4 +29,4 @@ def server_static(path):
     return send_from_directory('../frontend/', path)
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=8081)
+    app.run(debug=True, host=host, port=port)
