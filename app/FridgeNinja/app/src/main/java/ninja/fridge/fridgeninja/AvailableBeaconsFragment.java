@@ -28,7 +28,7 @@ import ninja.fridge.fridgeninja.dummy.DummyContent;
  * <p/>
  */
 public class AvailableBeaconsFragment extends Fragment implements AbsListView.OnItemClickListener,
-        MainActivity.BeaconsUpdateCallback {
+        BeaconsUpdateCallback {
 
 //    // TODO: Rename parameter arguments, choose names that match
 //    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -99,6 +99,7 @@ public class AvailableBeaconsFragment extends Fragment implements AbsListView.On
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_beacon, container, false);
 
+//        setEmptyText("No beacons in range :(");
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
         mListView.setAdapter(mAdapter);
