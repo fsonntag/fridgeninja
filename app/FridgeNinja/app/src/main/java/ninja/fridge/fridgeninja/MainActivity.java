@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Window;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -60,9 +61,21 @@ public class MainActivity extends ActionBarActivity
 
     }
 
+    public MainActivity() {
+    }
 
+    private ArrayList<WebviewCallback> webviewCallbacks = new ArrayList<>();
     private ArrayList<BeaconsUpdateCallback> updateCallbacks = new ArrayList<>();
     private ArrayList<MatchedBeaconUpdateCallback> matchedUpdateCallbacks = new ArrayList<>();
+
+
+    public void bindWebviewCallback(WebviewCallback callback) {
+        webviewCallbacks.add(callback);
+    }
+
+    public void unbindBeaconsUpdateCallback(WebviewCallback callback) {
+        webviewCallbacks.remove(callback);
+    }
 
     public void bindMatchedUpdateCallback(MatchedBeaconUpdateCallback callback) {
         matchedUpdateCallbacks.add(callback);
@@ -123,6 +136,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_PROGRESS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -152,11 +166,13 @@ public class MainActivity extends ActionBarActivity
         // update the main content by replacing fragments
         Fragment newFragment;
         if(position == 0) {
+            newFragment = MountedModeFragment.newInstance();
+        } else if(position == 1) {
+            newFragment = AvailableBeaconsFragment.newInstance();
+        } else if(position == 2) {
             DiagnosisFragment fragment = DiagnosisFragment.newInstance();
             fragment.setCallback(this);
             newFragment = fragment;
-        } else if(position == 1) {
-            newFragment = AvailableBeaconsFragment.newInstance();
         } else {
             newFragment = PlaceholderFragment.newInstance(position + 1);
         }
