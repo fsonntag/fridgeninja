@@ -22,16 +22,19 @@ $.getJSON("/events", function(data) {
   // Configuration for the Timeline
   var d_end = new Date();
   var d_start = new Date();
-  d_start.setDate(d_start.getDate()-1);
+  d_end = new Date(d_end.getTime() + 120*60000);
+  d_start.setDate(d_start.getDate() - 1);
 
   var options = {
     width: '100%',
     start: d_start,
-    end: d_end
+    end: d_end,
+    selectable: false
   };
 
   // Create a Timeline
   var timeline = new vis.Timeline(container, items, options);
+
 });
 
 
