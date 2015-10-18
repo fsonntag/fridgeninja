@@ -163,3 +163,8 @@ hr.seperator {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
+
+.centered-text {
+    text-align: center;
+}
