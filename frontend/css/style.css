@@ -46,6 +46,10 @@
     padding: 0;
 }
 
+.fridge-item-text-bg{
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
 .item-text-thing{
     margin: 10px;
 }
@@ -53,15 +57,17 @@
 .item-name, .item-count{
     position: absolute;
     bottom: 15px;
+    font-size: large;
 }
 
 .item-name{
     font-weight: bold;
-    font-size: medium;
+    font-size: large;
     left: 25px;
 }
+
 .item-count{
-    font-size: medium;
+    font-size: large;
     text-align: right;
     right: 30px;
 }
