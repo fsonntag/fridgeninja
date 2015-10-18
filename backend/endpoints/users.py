@@ -9,7 +9,6 @@ user_blueprint = Blueprint("user", __name__, url_prefix="/users")
 
 user_collection = db.users
 
-
 @user_blueprint.route("/", methods=["POST"])
 def post_user():
     data = request.get_json(force=True)
