@@ -17,8 +17,14 @@ $.getJSON("/events", function(data) {
   items = new vis.DataSet(timeline_data);
 
   // Configuration for the Timeline
+  var d_end = new Date();
+  var d_start = new Date();
+  d_start.setDate(d_start.getDate()-1);
+
   var options = {
-    width: '100%'
+    width: '100%',
+    start: d_start,
+    end: d_end
   };
 
   // Create a Timeline
