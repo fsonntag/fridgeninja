@@ -5,7 +5,7 @@ ln = logging.getLogger(__name__)
 from flask import request, Blueprint, jsonify
 from model.db import db
 import datetime
-from model.fridge import fridge
+from model.fridge import get_fridge
 from pymongo import DESCENDING
 
 events_blueprint = Blueprint("events", __name__, url_prefix="/events")
@@ -15,7 +15,7 @@ user_collection = db.users
 
 @events_blueprint.route("/", methods=["POST"])
 def post_event():
-    fridge.reload()
+    fridge = get_fridge()
     data = request.get_json(force=True)
 
     user = user_collection.User.find_one({"username": data["username"]})

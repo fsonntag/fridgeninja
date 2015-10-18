@@ -38,8 +38,20 @@ class Fridge(Document):
 connection.register([Fridge])
 
 fridge_collection = db.fridges
-fridge = fridge_collection.Fridge()
-fridge.save()
-fridge.reload()
+#fridge = fridge_collection.Fridge()
+#fridge.save()
+#fridge.reload()
 
+def get_fridge():
+    fs = list(fridge_collection.Fridge.find())
+    for f in fs:
+        if f.content:
+            return f
+    if not fs:
+        f = fridge_collection.Fridge()
+        f.save()
+        f.reload()
+        return f
+    else:
+        return fs[0]
 
