@@ -34,9 +34,24 @@ $.getJSON("/inventory/", function (data) {
 
 });
 function request_gif(query, callback) {
-    $.getJSON("https://api.giphy.com/v1/gifs/search?q=" + query +"&api_key=dc6zaTOxFJmzC", function (data) {
-        // console.log(data.data[0]);
-        callback(data.data[0].images.downsized.url);
-    })
+        $.getJSON("https://api.giphy.com/v1/gifs/search?q=" + query +"&api_key=dc6zaTOxFJmzC", function (data) {
+            // console.log(data.data[0]);
+            try {
+                callback(data.data[Math.floor(Math.random() * data.data.length)].images.downsized.url);
+            } catch (e) {
+                var qs = ["random", "lol", "drunk", "internet", "cocaine"];
+                var new_query = qs[Math.floor(Math.random() * qs.length)];
+                $.getJSON("https://api.giphy.com/v1/gifs/search?q=" + new_query +"&api_key=dc6zaTOxFJmzC", function (data) {
+                    try {
+                        callback(data.data[Math.floor(Math.random() * data.data.length)].images.downsized.url);
+                    } catch (e) {
+                        callback("/images/none-found.png");
+                    }
+                });
+            } finally {
+            }
+        });
+
+
 
 }
