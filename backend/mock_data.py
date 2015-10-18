@@ -82,6 +82,7 @@ for i in xrange(11):
     event11["timestamp"] = timestamp11
 
 
+event11["timestamp"] = time.time()
 requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event1))
 requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event2))
 requests.post("http://" + host + ":" + port + "/events/", data = json.dumps(event3))
