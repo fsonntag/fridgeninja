@@ -16,14 +16,32 @@
     }
 }
 */
+.h1-title{
+    font-size: -webkit-xxx-large;
+    font-weight: bold;
+    color: white;
+    margin-right: 5px;
+}
+
+.h4-title{
+    font-size: x-large;
+    font-weight: normal;
+    color: white;
+    overflow-x: scroll;
+    white-space: nowrap;
+    margin-left: 5px;
+}
+
+
 .fridge-item{
     /*background-color: #EAEAEA;*/
     -webkit-box-shadow: 3px 3px 5px 0px rgba(112,112,112,1);
     -moz-box-shadow: 3px 3px 5px 0px rgba(112,112,112,1);
     box-shadow: 3px 3px 5px 0px rgba(162,162,162,1);
-    height: 150px;
+    height: 200px;
     margin: 10px;
 }
+
 .fridge-item-pad {
     padding: 0;
 }
@@ -31,6 +49,7 @@
 .item-text-thing{
     margin: 10px;
 }
+
 .item-name, .item-count{
     position: absolute;
     bottom: 15px;
@@ -57,16 +76,26 @@
     /*background:rgba(0,0,0,0.6);*/
     opacity:0.5;
 }
-
+.h2{
+    margin-bottom: 12px;
+}
 .header-lol{
     width: 100%;
     height: 100%;
-    background-color: aliceblue;
+    background-color: rgba(211, 84, 0, 1);
+    /*background-color: rgba(80, 80, 80, 1);*/
     margin-top: 0px;
     padding: 2px;
-    text-align: -webkit-center;
+    /*text-align: -webkit-center;*/
+    padding-left: 10%;
     font-weight: bold;
+    color: black;
 }
+/*.header-header{
+    height: 10px;
+    width: 100%;
+    background-color: #689F38;
+}*/
 
 .transaction-string{
   font-size: 15px;
@@ -77,26 +106,30 @@
 }
 
 .event-row{
-  margin-top: 10px;
-  /*margin-bottom: 5px;*/
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 hr.seperator {
   border: 0;
   height: 1px;
-  margin-top: 8px;
+  margin-top: 1px;
+  margin-bottom: 6px;
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
 
 .fridge-events-box{
     border-style: solid;
     border-width: 1px;
-    background-color: rgba(245, 245, 245, 1);
-    border-color: lightgray;
-
+    background-color: rgba(172, 213, 45, 0.96);;
+    border-color: rgba(187, 187, 187, 0.8);
+    margin: -5px;
+    margin-top: 35px;
+    padding: 8px;
+    color: white;
 }
 
 .fridge-events-header{
-    font-weight: bold;
-    font-size: larger;
+    font-size: x-large;
+    color: white;
 }
