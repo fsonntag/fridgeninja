@@ -33,8 +33,8 @@
 }
 
 .fridge-item{
-    -webkit-box-shadow: 3px 3px 5px 0px rgba(112,112,112,1);
-    -moz-box-shadow: 3px 3px 5px 0px rgba(112,112,112,1);
+    -webkit-box-shadow: 3px 3px 5px 0px rgba(162,162,162,1);
+    -moz-box-shadow: 3px 3px 5px 0px rgba(162,162,162,1);
     box-shadow: 3px 3px 5px 0px rgba(162,162,162,1);
     height: 200px;
     margin: 10px;
@@ -51,7 +51,7 @@
     width: 100%;
     position:absolute;
     top:0; left:0;
-    opacity:0.5;
+    opacity:0.65;
 }
 
 .text-layer{
