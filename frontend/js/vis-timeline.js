@@ -6,12 +6,15 @@ $.getJSON("/events", function(data) {
   var timeline_data = [];
   $(data.events).each(function (index, event) {
     var color = intToRGB(hashCode(event.user.username));
+    var title = build_transaction_string(event.user.username, event.transactions);
+    console.log(title);
     timeline_data.push({
       id: index,
       content: event.user.username,
       start: new Date(event.timestamp),
       style: "background-color: #" + color,
-      subgroup: event.user.username
+      subgroup: event.user.username,
+      title: title
     });
   })
   items = new vis.DataSet(timeline_data);
