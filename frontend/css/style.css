@@ -24,6 +24,7 @@
     height: 150px;
     margin: 10px;
 }
+
 .fridge-item-pad {
     padding: 0;
 }
@@ -31,6 +32,7 @@
 .item-text-thing{
     margin: 10px;
 }
+
 .item-name, .item-count{
     position: absolute;
     bottom: 15px;

@@ -70,10 +70,24 @@ function build_transaction_string(username, transactions) {
   return s;
 }
 
-$.getJSON("/events/", function (data) {
-    // console.log(data);
-    $(data.events).each(function (index, event) {
-        // console.log(event);
-        append_event_content(event.timestamp, event.user.username, event.transactions);
-    })
+var page = 0;
+function getPage(pageNumber) {
+  $.ajax({
+    url: "/events?page=" + pageNumber,
+    type: "GET",
+    success: function (data) {
+      $(data.events).each(function (index, event) {
+      append_event_content(event.timestamp, event.user.username, event.transactions);
+      })
+    }
+  });
+}
+getPage(page);
+
+$(window).scroll(function() {
+  if($(window).scrollTop() == $(document).height() - $(window).height()) {
+      // ajax call get data from server and append to the div
+      page++;
+      getPage(page);
+  }
 });
