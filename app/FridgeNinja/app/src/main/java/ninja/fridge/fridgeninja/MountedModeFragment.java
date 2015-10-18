@@ -1,6 +1,7 @@
 package ninja.fridge.fridgeninja;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -60,6 +61,7 @@ public class MountedModeFragment extends Fragment implements WebviewCallback, Ma
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mounted_mode, container, false);
         webview = (WebView)view.findViewById(R.id.webview);
+        webview.clearCache(true);
 
         // Inflate the layout for this fragment
         final Activity activity = mainActivity;
@@ -72,7 +74,13 @@ public class MountedModeFragment extends Fragment implements WebviewCallback, Ma
         });
         webview.setWebViewClient(new WebViewClient() {
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Toast.makeText(activity, "Oh no! " + description, Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "Oh no! " + description, Toast.LENGTH_LONG).show();
+            }
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                Toast.makeText(activity, "Navigating, be patient :)", Toast.LENGTH_LONG).show();
+            }
+            public void onPageFinished(WebView view, String url) {
+                Toast.makeText(activity, "Done", Toast.LENGTH_LONG).show();
             }
         });
 

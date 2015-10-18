@@ -2,8 +2,8 @@ __author__ = 'Felix'
 
 import requests
 import json
-from settings import host, port
-
+from settings import port
+host = 'localhost'
 port = str(port)
 
 user1 = {"username": "Bene", "device": "C2:71:93:D3:2D:61"}

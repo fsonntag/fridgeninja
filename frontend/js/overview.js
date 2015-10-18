@@ -1,11 +1,10 @@
 function append_fridge_content(name, quantity) {
-    request_gif(name, function (imageurl) {
-        var grid = document.querySelector('#columns');
+    var grid = document.querySelector('#columns');
         var item = document.createElement('div');
         var h = '<div class="col-xs-6 col-sm-6 col-md-3 fridge-item-pad">';
         h += '<div class="fridge-item">';
         h += '<div class="giphy-image-overlay" alt=""></div>'
-        h += '<img src="' + imageurl + '" class="giphy-image"></img>';
+        h += '<img src="" class="giphy-image img-' + name + '"></img>';
         h += '<div class="text-layer">';
         h += '<span class="item-name">';
         h += name.charAt(0).toUpperCase() + name.slice(1);
@@ -17,10 +16,13 @@ function append_fridge_content(name, quantity) {
         h += '</div>';
         h += '</div>';
         h += '</div>';
-        console.log(h);
-        salvattore['append_elements'](grid, [item]);
-        item.outerHTML = h;
-    })
+        // console.log(h);
+    salvattore['append_elements'](grid, [item]);
+    item.outerHTML = h;
+    request_gif(name, function (imageurl) {
+        console.log('got image');
+        $('.img-' + name).attr('src', imageurl);
+    });
 
 }
 
@@ -31,6 +33,7 @@ $.getJSON("/inventory/", function (data) {
         console.log(item);
         append_fridge_content(item.name, item.quantity);
     });
+    
 
 });
 function request_gif(query, callback) {
