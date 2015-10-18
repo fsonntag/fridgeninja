@@ -16,12 +16,29 @@
     }
 }
 */
+.h1-title{
+    font-size: -webkit-xxx-large;
+    font-weight: bold;
+    color: white;
+    margin-right: 5px;
+}
+
+.h4-title{
+    font-size: x-large;
+    font-weight: normal;
+    color: white;
+    overflow-x: scroll;
+    white-space: nowrap;
+    margin-left: 5px;
+}
+
+
 .fridge-item{
     /*background-color: #EAEAEA;*/
     -webkit-box-shadow: 3px 3px 5px 0px rgba(112,112,112,1);
     -moz-box-shadow: 3px 3px 5px 0px rgba(112,112,112,1);
     box-shadow: 3px 3px 5px 0px rgba(162,162,162,1);
-    height: 150px;
+    height: 200px;
     margin: 10px;
 }
 .fridge-item-pad {
@@ -57,16 +74,19 @@
     /*background:rgba(0,0,0,0.6);*/
     opacity:0.5;
 }
-
+.h2{
+    margin-bottom: 12px;
+}
 .header-lol{
     width: 100%;
     height: 100%;
-    background-color: #8BC34A;
+    background-color: rgba(80, 80, 80, 1);
     margin-top: 0px;
     padding: 2px;
-    text-align: -webkit-center;
+    /*text-align: -webkit-center;*/
+    padding-left: 10%;
     font-weight: bold;
-    color: white;
+    color: black;
 }
 /*.header-header{
     height: 10px;
@@ -98,10 +118,12 @@ hr.seperator {
     border-style: solid;
     border-width: 1px;
     /*background-color: rgba(245, 245, 245, 0.5);*/
-    background-color: #DCEDC8;
-    border-color: rgba(245, 245, 245, 0.8);
+    /*background-color: #DCEDC8;*/
+    /*border-color: rgba(245, 245, 245, 0.8);*/
+    background-color: #E0E0E0;
+    border-color: rgba(187, 187, 187, 0.8);
     margin: -5px;
-    margin-top: 20px;
+    margin-top: 35px;
     padding: 8px;
 
 }

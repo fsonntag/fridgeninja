@@ -2,7 +2,8 @@ function append_fridge_content(name, quantity) {
     request_gif(name, function (imageurl) {
         var grid = document.querySelector('#columns');
         var item = document.createElement('div');
-        var h = '<div class="col-xs-6 col-sm-4 col-md-2 fridge-item-pad">';
+        //var h = '<div class="col-xs-6 col-sm-4 col-md-2 fridge-item-pad">';
+        var h = '<div class="col-xs-6 col-sm-6 col-md-3 fridge-item-pad">';
         h += '<div class="fridge-item">';
         h += '<div class="giphy-image-overlay" alt=""></div>'
         h += '<img src="' + imageurl + '" class="giphy-image"></img>';
