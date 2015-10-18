@@ -4,14 +4,13 @@ function append_event_content(timestamp, username, transactions) {
     var date = new Date(timestamp);
     var transaction_string = build_transaction_string(username, transactions);
     var h = '<div class="event-row">';
+    h += '<hr class="seperator">';
     h += '<div class="time-string">';
     h += moment(date).format('MMM D YYYY, hh:mm a');
     h += '</div>';
     h += '<div class="transaction-string">';
     h += transaction_string;
     h += '</div>';
-    h += '<hr class="seperator">';
-		h += '<div class="code" style="margin-top: -5px;"></div>';
     h += '</div>';
     salvattore['append_elements'](grid, [item]);
     item.outerHTML = h;
@@ -70,10 +69,30 @@ function build_transaction_string(username, transactions) {
   return s;
 }
 
-$.getJSON("/events/", function (data) {
-    // console.log(data);
-    $(data.events).each(function (index, event) {
-        // console.log(event);
-        append_event_content(event.timestamp, event.user.username, event.transactions);
-    })
+var page = 0;
+function getPage(pageNumber) {
+  $.ajax({
+    url: "/events?page=" + pageNumber,
+    type: "GET",
+    beforeSend: function(){
+      $('#spinner').show();
+    },
+    complete: function(){
+      $('#spinner').hide();
+    },
+    success: function (data) {
+      $(data.events).each(function (index, event) {
+      append_event_content(event.timestamp, event.user.username, event.transactions);
+      })
+    }
+  });
+}
+getPage(page);
+
+$(window).scroll(function() {
+  if($(window).scrollTop() == $(document).height() - $(window).height()) {
+      // ajax call get data from server and append to the div
+      page++;
+      getPage(page);
+  }
 });

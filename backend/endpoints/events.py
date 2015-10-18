@@ -44,7 +44,7 @@ def get_events():
 
     if "page" in request.args:
         page_number = int(request.args["page"])
-        events = events[page_number * 10 : page_number * 10 + 10]
+        events = events[page_number * 15 : page_number * 15 + 15]
 
     return jsonify(events=[event.to_json_type() for event in events])
 
