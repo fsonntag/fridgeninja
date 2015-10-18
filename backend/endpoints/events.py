@@ -33,6 +33,8 @@ def post_event():
 
     for item, quantity in transactions.items():
         fridge.transact_item(item, quantity)
+        fridge.save()
+        fridge.reload()
 
     fridge.save()
 
