@@ -25,7 +25,10 @@ def post_event():
 
     event = event_collection.Event()
 
-    event.timestamp = datetime.datetime.now()
+    if "timestamp" in data.keys():
+        event.timestamp = datetime.datetime.fromtimestamp(data["timestamp"])
+    else:
+        event.timestamp = datetime.datetime.now()
     transactions = data["transactions"]
     event.transactions = transactions
     event.user = user
