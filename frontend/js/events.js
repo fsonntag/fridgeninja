@@ -82,7 +82,7 @@ function getPage(pageNumber) {
     },
     success: function (data) {
       $(data.events).each(function (index, event) {
-      append_event_content(event.timestamp, event.user.username, event.transactions);
+        append_event_content(event.timestamp, event.user.username, event.transactions);
       })
     }
   });
