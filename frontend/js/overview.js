@@ -2,21 +2,20 @@ function append_fridge_content(name, quantity) {
     request_gif(name, function (imageurl) {
         var grid = document.querySelector('#columns');
         var item = document.createElement('div');
-        //var h = '<div class="col-xs-6 col-sm-4 col-md-2 fridge-item-pad">';
         var h = '<div class="col-xs-6 col-sm-6 col-md-3 fridge-item-pad">';
         h += '<div class="fridge-item">';
         h += '<div class="giphy-image-overlay" alt=""></div>'
         h += '<img src="' + imageurl + '" class="giphy-image"></img>';
-        // h += '<div class="item-text-thing-outer row">';
-        // h += '<div class="row item-text-thing">';
-        h += '<div class="item-name">';
+        h += '<div class="text-layer">';
+        h += '<span class="item-name">';
         h += name.charAt(0).toUpperCase() + name.slice(1);;
-        h += '</div>';
-        h += '<div class="item-count">';
+        h += '</span>';
+        h += '<span class="item-count">';
         h += quantity;
+        h += '</span>';
         h += '</div>';
-        // h += '</div>';
-        // h += '</div>';
+        h += '</div>';
+        h += '</div>';
         h += '</div>';
         console.log(h);
         salvattore['append_elements'](grid, [item]);
