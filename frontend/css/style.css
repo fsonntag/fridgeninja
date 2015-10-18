@@ -158,3 +158,8 @@ hr.seperator {
     font-size: xx-large;
     color: white;
 }
+
+.spinner-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
