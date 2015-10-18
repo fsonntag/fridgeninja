@@ -13,7 +13,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import org.altbeacon.beacon.Beacon;
+
 import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -75,7 +78,7 @@ public class MountedModeFragment extends Fragment implements WebviewCallback, Ma
 
         webview.getSettings().setJavaScriptEnabled(true);
 
-        navigateTo("http://bbrandner.com");
+        navigateTo("http://philippd.me");
         return view;
     }
 
@@ -84,6 +87,7 @@ public class MountedModeFragment extends Fragment implements WebviewCallback, Ma
         super.onAttach(activity);
         try {
             mainActivity = (MainActivity) activity;
+            ((MainActivity) activity).bindMatchedUpdateCallback(this);
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must be MainActivity");
@@ -93,11 +97,26 @@ public class MountedModeFragment extends Fragment implements WebviewCallback, Ma
     @Override
     public void onDetach() {
         super.onDetach();
+        mainActivity.unbindBeaconsUpdateCallback((MatchedBeaconUpdateCallback) this);
         mainActivity = null;
     }
 
     @Override
-    public void beaconsChanged(Collection<BeaconBuffer.BeaconInfo> newBeacons) {
+    public void beaconsChanged(List<BeaconBuffer.BeaconInfo> newBeacons) {
+        String user;
+        if(newBeacons.isEmpty()) {
+            user = "ninja";
+        } else {
+            Beacon beacon = newBeacons.get(0).beacon;
+            if(!mainActivity.getUsersByDevice().containsKey(beacon.getBluetoothAddress())) {
+                user = "anonymous";
+            } else {
+                user = mainActivity.getUsersByDevice().get(beacon.getBluetoothAddress());
+            }
+        }
+
+        Toast.makeText(mainActivity, "Launching website!", Toast.LENGTH_LONG).show();
+        webview.loadUrl("http://philippd.me/secret.html?username=" + user);
     }
 
     @Override
