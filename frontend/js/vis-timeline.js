@@ -27,11 +27,13 @@ $.getJSON("/events", function(data) {
   var options = {
     width: '100%',
     start: d_start,
-    end: d_end
+    end: d_end,
+    selectable: false
   };
 
   // Create a Timeline
   var timeline = new vis.Timeline(container, items, options);
+
 });
 
 
