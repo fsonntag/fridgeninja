@@ -40,7 +40,7 @@ def post_event():
 
 @events_blueprint.route("/", methods=["GET"])
 def get_events():
-    events = event_collection.Event.find()
+    events = event_collection.Event.find().sort({"_id": -1});
 
     if "page" in request.args:
         page_number = int(request.args["page"])
