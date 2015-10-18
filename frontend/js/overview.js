@@ -42,7 +42,7 @@ function request_gif(query, callback) {
             try {
                 callback(data.data[Math.floor(Math.random() * data.data.length)].images.downsized.url);
             } catch (e) {
-                var qs = ["random", "lol", "drunk", "internet", "cocaine"];
+                var qs = ["random", "lol", "drunk", "internet", "cocaine", "make-it-rain", "mlg"];
                 var new_query = qs[Math.floor(Math.random() * qs.length)];
                 $.getJSON("https://api.giphy.com/v1/gifs/search?q=" + new_query +"&api_key=dc6zaTOxFJmzC", function (data) {
                     try {
