@@ -33,7 +33,9 @@ $.getJSON("/inventory/", function (data) {
         console.log(item);
         append_fridge_content(item.name, item.quantity);
     });
-    
+    if(data.inventory.length == 0) {
+        $('#columns').children().html('<p class="centered-text">Your fridge seems empty.</p>');
+    }
 
 });
 function request_gif(query, callback) {
