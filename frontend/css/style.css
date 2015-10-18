@@ -21,6 +21,7 @@
     font-weight: bold;
     color: white;
     margin-right: 5px;
+    /*botto*/
 }
 
 .h4-title{
@@ -30,8 +31,20 @@
     overflow-x: scroll;
     white-space: nowrap;
     margin-left: 5px;
+    /*margin-bottom: 10px;*/
 }
 
+.h-logo{
+  max-height: 100%;
+}
+
+.logo-pic{
+  vertical-align: bottom;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  max-height: 15%;
+  max-width: 15%;
+}
 
 #columns{
     margin-top: 30px;
