@@ -5,4 +5,5 @@ package ninja.fridge.fridgeninja;
  */
 public interface WebviewCallback {
     void navigateTo(String url);
+    void reload();
 }

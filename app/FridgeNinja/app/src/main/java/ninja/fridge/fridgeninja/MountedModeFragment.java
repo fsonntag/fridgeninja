@@ -12,6 +12,7 @@ import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.altbeacon.beacon.Beacon;
@@ -29,6 +30,7 @@ public class MountedModeFragment extends Fragment implements WebviewCallback, Ma
 
     private MainActivity mainActivity;
     private WebView webview;
+    private ProgressBar progressbar;
 
     /**
      * Use this factory method to create a new instance of
@@ -60,6 +62,8 @@ public class MountedModeFragment extends Fragment implements WebviewCallback, Ma
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mounted_mode, container, false);
+        progressbar = (ProgressBar)view.findViewById(R.id.progress);
+        progressbar.setMax(100);
         webview = (WebView)view.findViewById(R.id.webview);
         webview.clearCache(true);
 
@@ -69,7 +73,8 @@ public class MountedModeFragment extends Fragment implements WebviewCallback, Ma
             public void onProgressChanged(WebView view, int progress) {
                 // Activities and WebViews measure progress with different scales.
                 // The progress meter will automatically disappear when we reach 100%
-                activity.setProgress(progress * 1000);
+                progressbar.setProgress(progress);
+//                Toast.makeText(activity, progress + "%", Toast.LENGTH_SHORT).show();
             }
         });
         webview.setWebViewClient(new WebViewClient() {
@@ -96,6 +101,7 @@ public class MountedModeFragment extends Fragment implements WebviewCallback, Ma
         try {
             mainActivity = (MainActivity) activity;
             ((MainActivity) activity).bindMatchedUpdateCallback(this);
+            mainActivity.bindWebviewCallback(this);
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must be MainActivity");
@@ -106,6 +112,7 @@ public class MountedModeFragment extends Fragment implements WebviewCallback, Ma
     public void onDetach() {
         super.onDetach();
         mainActivity.unbindBeaconsUpdateCallback((MatchedBeaconUpdateCallback) this);
+        mainActivity.unbindBeaconsUpdateCallback((WebviewCallback) this);
         mainActivity = null;
     }
 
@@ -130,5 +137,10 @@ public class MountedModeFragment extends Fragment implements WebviewCallback, Ma
     @Override
     public void navigateTo(String url) {
         webview.loadUrl(url);
+    }
+
+    @Override
+    public void reload() {
+        webview.reload();
     }
 }

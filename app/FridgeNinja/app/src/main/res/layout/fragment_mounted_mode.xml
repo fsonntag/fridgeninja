@@ -3,6 +3,13 @@
     android:layout_height="match_parent"
     tools:context="ninja.fridge.fridgeninja.MountedModeFragment">
 
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@android:style/Widget.ProgressBar.Large"
+        android:max="100"
+        android:progress="50"/>
     <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
