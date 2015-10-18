@@ -39,7 +39,9 @@ function request_gif(query, callback) {
             try {
                 callback(data.data[Math.floor(Math.random() * data.data.length)].images.downsized.url);
             } catch (e) {
-                $.getJSON("https://api.giphy.com/v1/gifs/search?q=random&api_key=dc6zaTOxFJmzC", function (data) {
+                var qs = ["random", "lol", "drunk", "internet", "cocaine"];
+                var new_query = qs[Math.floor(Math.random() * qs.length)];
+                $.getJSON("https://api.giphy.com/v1/gifs/search?q=" + new_query +"&api_key=dc6zaTOxFJmzC", function (data) {
                     try {
                         callback(data.data[Math.floor(Math.random() * data.data.length)].images.downsized.url);
                     } catch (e) {

@@ -63,15 +63,16 @@
     height: 100%;
     background-color: #8BC34A;
     margin-top: 0px;
-    /*padding: 2px;*/
+    padding: 2px;
     text-align: -webkit-center;
     font-weight: bold;
+    color: white;
 }
-.header-header{
+/*.header-header{
     height: 10px;
     width: 100%;
     background-color: #689F38;
-}
+}*/
 
 .transaction-string{
   font-size: 15px;
