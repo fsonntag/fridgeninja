@@ -1,6 +1,11 @@
 package ninja.fridge.fridgeninja;
 
 import android.app.Activity;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.RemoteException;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -15,6 +20,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Window;
+import android.widget.TextView;
+
+import com.android.volley.Cache;
+import com.android.volley.Network;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -22,19 +40,34 @@ import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-        BeaconConsumer, DiagnosisFragment.FridgeCallback {
+        BeaconConsumer, DiagnosisFragment.FridgeCallback, SensorEventListener {
 
     private BeaconManager beaconManager;
 
     private BeaconBuffer buffer = new BeaconBuffer();
+
+    private HashMap<String, String> usersByDevice = new HashMap<>();
+
+    private RequestQueue queue;
+
+    private FragmentInteractionListener diagnoseFragment;
 
     @Override
     public void opened() {
@@ -45,7 +78,7 @@ public class MainActivity extends ActionBarActivity
     public void closed() {
         buffer.stopMonitoring();
         List<BeaconBuffer.BeaconInfo> beaconInfos = buffer.orderedResults();
-        for(MatchedBeaconUpdateCallback callback : matchedUpdateCallbacks) {
+        for (MatchedBeaconUpdateCallback callback : matchedUpdateCallbacks) {
             callback.beaconsChanged(beaconInfos);
         }
     }
@@ -88,6 +121,7 @@ public class MainActivity extends ActionBarActivity
     public void unbindBeaconsUpdateCallback(BeaconsUpdateCallback callback) {
         updateCallbacks.remove(callback);
     }
+
     public void unbindBeaconsUpdateCallback(MatchedBeaconUpdateCallback callback) {
         matchedUpdateCallbacks.remove(callback);
     }
@@ -99,7 +133,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     protected void updateBeacons(Collection<Beacon> beacons) {
-        for(BeaconsUpdateCallback callback : updateCallbacks) {
+        for (BeaconsUpdateCallback callback : updateCallbacks) {
 //            Log.i("MainActivity", "sending " + beacons.size() + " beacons to fragment");
             callback.beaconsChanged(beacons);
         }
@@ -140,6 +174,47 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        sensorMan = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
+        gyro = sensorMan.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
+        // Instantiate the cache
+        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
+
+        // Set up the network to use HttpURLConnection as the HTTP client.
+        Network network = new BasicNetwork(new HurlStack());
+
+        // Instantiate the RequestQueue with the cache and network.
+        queue = new RequestQueue(cache, network);
+
+        // Start the queue
+        queue.start();
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, "http://philippd.me/users/", new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray users = (JSONArray) response.get("users");
+                            for (int i = 0; i < users.length(); i++) {
+                                JSONObject user = users.getJSONObject(i);
+                                String name = user.getString("username");
+                                String device = user.getString("device");
+                                usersByDevice.put(device, name);
+                            }
+                        } catch (JSONException e) {
+                            Log.e("JSON Parse", e.getMessage(), e);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("JSON", error.getMessage(), error);
+                    }
+                });
+
+        queue.add(jsObjRequest);
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -165,13 +240,13 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         Fragment newFragment;
-        if(position == 0) {
+        if (position == 0) {
             newFragment = MountedModeFragment.newInstance();
-        } else if(position == 1) {
+        } else if (position == 1) {
             newFragment = AvailableBeaconsFragment.newInstance();
-        } else if(position == 2) {
+        } else if (position == 2) {
             DiagnosisFragment fragment = DiagnosisFragment.newInstance();
-            fragment.setCallback(this);
+            diagnoseFragment = fragment;
             newFragment = fragment;
         } else {
             newFragment = PlaceholderFragment.newInstance(position + 1);
@@ -233,6 +308,123 @@ public class MainActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
+    public HashMap<String, String> getUsersByDevice() {
+        return usersByDevice;
+    }
+
+
+    private SensorManager sensorMan;
+    private Sensor gyro;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sensorMan.registerListener(this, gyro,
+                SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        sensorMan.unregisterListener(this);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+            float[] force = event.values.clone();
+            // Shake detection
+            float x = force[0];
+            float y = force[1];
+            float z = force[2];
+//            Log.i("Sensors", String.format("x: %.2f y: %.2f z: %.2f", x, y, z));
+
+            onGyroData(x, y, z);
+        }
+
+    }
+
+    private LinkedList<Float> cache = new LinkedList<>();
+    private int cacheSize = 8;
+    private final float magicOpenConstant = 0.4f;
+
+    private boolean closed = true;
+    private boolean opening = false;
+    private boolean closing = false;
+    private int openDirection = 0; // 0: unknown -1: negative opens 1: positive opens
+
+    private void onGyroData(float x, float y, float z) {
+        float magnitude = (float) Math.sqrt(x * x + y * y + z * z);
+        float abs = Math.abs(magnitude);
+        while (cache.size() >= cacheSize) {
+            cache.removeFirst();
+        }
+        cache.addLast(abs);
+
+        float avg = 0;
+        if (!cache.isEmpty()) {
+            for (Float v : cache) {
+                avg += v;
+            }
+            avg /= cache.size();
+        }
+
+        if (avg > magicOpenConstant) {
+            // first run: determine if positive opens or closes
+            if (openDirection == 0 && abs > magicOpenConstant) {
+                if (magnitude < 0) {
+                    openDirection = -1;
+                } else {
+                    openDirection = 1;
+                }
+            }
+
+            // opening or closing
+            if (closed) {
+                opening = true;
+                startOpening();
+            } else {
+                closing = true;
+                startClosing();
+            }
+        } else {
+            // open or closed if we did something
+            if (opening) {
+                closed = false;
+                opening = false;
+                opened();
+            }
+            if (closing) {
+                closed = true;
+                closing = false;
+                closed();
+            }
+        }
+
+        String text = "Last " + cache.size() + ": " + String.format("%.2f", avg) + "\n";
+        for (float v : cache) {
+            text += String.format("%.2f", v) + "\n";
+        }
+
+        String state;
+        if (opening || closing) {
+            state = opening ? "OPENING" : "CLOSING";
+        } else {
+            state = closed ? "CLOSED" : "OPEN";
+        }
+
+        if(diagnoseFragment != null) {
+            diagnoseFragment.setStatus(state, text);
+        }
+    }
+
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // required method
+    }
+
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -271,6 +463,8 @@ public class MainActivity extends ActionBarActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+
     }
+
 
 }
