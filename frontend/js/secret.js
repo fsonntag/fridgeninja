@@ -56,3 +56,27 @@ function request_gif(query, callback) {
     })
 
 }
+
+$(document).ready(function() {
+    // todo on-users
+    $('.otheruser').on('click', function(event) {
+        event.preventDefault();
+        console.log("wowza");
+        var newguy = $(this).html();
+        var oldguy = $('#activeuser').html();
+        $(this).html(oldguy);
+        $('#activeuser').html(newguy);
+    }); 
+
+    // todo on-inventory
+    $('.counter-spinner').find('.up').click(function(e) {
+        var cter = $(this).parent().siblings('input');
+        var asint = parseInt(cter.val());
+        cter.val(asint + 1);
+    });
+    $('.counter-spinner').find('.down').click(function(e) {
+        var cter = $(this).parent().siblings('input');
+        var asint = parseInt(cter.val());
+        cter.val(asint - 1);
+    });
+});
