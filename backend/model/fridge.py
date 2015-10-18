@@ -40,5 +40,6 @@ connection.register([Fridge])
 fridge_collection = db.fridges
 fridge = fridge_collection.Fridge()
 fridge.save()
+fridge.reload()
 
 

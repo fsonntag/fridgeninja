@@ -10,12 +10,12 @@ from pymongo import DESCENDING
 
 events_blueprint = Blueprint("events", __name__, url_prefix="/events")
 
-fridge_collection = db.fridges
 event_collection = db.events
 user_collection = db.users
 
 @events_blueprint.route("/", methods=["POST"])
 def post_event():
+    fridge.reload()
     data = request.get_json(force=True)
 
     user = user_collection.User.find_one({"username": data["username"]})
