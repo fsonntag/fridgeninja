@@ -6,24 +6,24 @@ from settings import host, port
 
 port = str(port)
 
-user1 = {"username": "Bene", "device": "Sony Z3"}
-user2 = {"username": "Philipp", "device": "OnePlus One"}
-user3 = {"username": "Felix", "device": "Xiaomi Mi3"}
+user1 = {"username": "Bene", "device": "C2:71:93:D3:2D:61"}
+user2 = {"username": "Philipp", "device": "D2:7A:9D:34:2D:2D"}
+user3 = {"username": "Felix", "device": "D2:7A:9D:34:2A:2D"}
 requests.post("http://" + host + ":" + port + "/users/", data = json.dumps(user1))
 requests.post("http://" + host + ":" + port + "/users/", data = json.dumps(user2))
 requests.post("http://" + host + ":" + port + "/users/", data = json.dumps(user3))
 
-event1 = {"username": "Bene", "transactions": {"beer": 20, "water": 10, "lemonade": 2, "Jagermeister": 3}}
-event2 = {"username": "Felix", "transactions": {"beer": -1}}
-event3 = {"username": "Bene", "transactions": {"beer": -3}}
-event4 = {"username": "Philipp", "transactions": {"beer": -5, "water": -1, "vodka": 1}}
-event5 = {"username": "Philipp", "transactions": {"lemonade": -1}}
-event6 = {"username": "Bene", "transactions": {"water": -1, "Spezi": 1}}
-event7 = {"username": "Felix", "transactions": {"beer": -5, "water": -2, "coke": 2}}
-event8 = {"username": "Bene", "transactions": {"beer": -6}}
-event9 = {"username": "Felix", "transactions": {"beer": 20, "water": 4, "lemonade": 2, "juice": 1}}
-event10 = {"username": "Philipp", "transactions": {"beer": -20, "vodka": -1, "coke": -2, "lemonade": -3}}
-event11 = {"username": "Bene", "transactions": {"Jagermeister": -3, "water": -10, "juice": -1}}
+event1 = {"username": "Bene", "transactions": {"Beer": 20, "Water": 10, "Lemonade": 2, "Jagermeister": 3}}
+event2 = {"username": "Felix", "transactions": {"Beer": -1}}
+event3 = {"username": "Bene", "transactions": {"Beer": -3}}
+event4 = {"username": "Philipp", "transactions": {"Beer": -5, "Water": -1, "Vodka": 1}}
+event5 = {"username": "Philipp", "transactions": {"Lemonade": -1}}
+event6 = {"username": "Bene", "transactions": {"Water": -1, "Spezi": 1}}
+event7 = {"username": "Felix", "transactions": {"Beer": -5, "Water": -2, "Coke": 2}}
+event8 = {"username": "Bene", "transactions": {"Beer": -6}}
+event9 = {"username": "Felix", "transactions": {"Beer": 20, "Water": 4, "Lemonade": 2, "Juice": 1}}
+event10 = {"username": "Philipp", "transactions": {"Beer": -20, "Vodka": -1, "Coke": -2, "Lemonade": -3}}
+event11 = {"username": "Bene", "transactions": {"Jagermeister": -3, "Water": -10, "Juice": -1}}
 
 
 for i in xrange(11):

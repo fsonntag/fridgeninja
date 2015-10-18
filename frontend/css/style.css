@@ -32,6 +32,17 @@
     margin-left: 5px;
 }
 
+.h-logo{
+  max-height: 100%;
+}
+
+.logo-pic{
+  vertical-align: bottom;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  max-height: 10%;
+  max-width: 10%;
+}
 
 #columns{
     margin-top: 30px;

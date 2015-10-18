@@ -8,7 +8,7 @@ function append_fridge_content(name, quantity) {
         h += '<img src="' + imageurl + '" class="giphy-image"></img>';
         h += '<div class="text-layer">';
         h += '<span class="item-name">';
-        h += name.charAt(0).toUpperCase() + name.slice(1);;
+        h += name.charAt(0).toUpperCase() + name.slice(1);
         h += '</span>';
         h += '<span class="item-count">';
         h += quantity;

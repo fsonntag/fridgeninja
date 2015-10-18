@@ -82,10 +82,10 @@ $(document).ready(function() {
             var oldguy = $('#activeuser').html();
             $(this).html(oldguy);
             $('#activeuser').html(newguy);
-        }); 
+        });
     });
 
-    $('#submitbattn').click(function(e) {
+    $('#submitt_button').click(function(e) {
         var newthing = $('#newkram').val();
         if(newthing !== '' && newcount > 0) {
             choices[newthing] = newcount;
@@ -107,7 +107,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: JSON.stringify(data),
             success: function () {
-                $('#submitbattn').text("YO GEIL!");
+                $('#submitt_button').text("YO GEIL!");
                 window.location.replace('/');
             },
             fail: function() {
@@ -115,7 +115,7 @@ $(document).ready(function() {
             }
         });
     });
-    
+
     $('#philippcheckts').find('.up').click(function(e) {
         var cter = $(this).parent().siblings('input');
         var asint = parseInt(cter.val());
