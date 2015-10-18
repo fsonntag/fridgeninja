@@ -8,7 +8,6 @@ fridge_blueprint = Blueprint("inventory", __name__, url_prefix="/inventory")
 
 @fridge_blueprint.route("/", methods=["GET"])
 def get_inventory():
-    fridge = fridge_collection.Fridge.find_one()
 
     return jsonify(inventory=[{"name": item, "quantity": count} for item, count in fridge.content.items()])
 

@@ -34,7 +34,6 @@ class Fridge(Document):
             ln.debug("Putting %s of %s into fridge" % (quantity, item))
         print old_quantity
         self.content[item] = old_quantity + quantity
-        self.save()
 
 connection.register([Fridge])
 
