@@ -6,6 +6,7 @@ from flask import request, Blueprint, jsonify
 from model.db import db
 import datetime
 from model.fridge import fridge
+from pymongo import DESCENDING
 
 events_blueprint = Blueprint("events", __name__, url_prefix="/events")
 
@@ -40,7 +41,7 @@ def post_event():
 
 @events_blueprint.route("/", methods=["GET"])
 def get_events():
-    events = event_collection.Event.find().sort({"_id": -1});
+    events = event_collection.Event.find().sort('_id', DESCENDING)
 
     if "page" in request.args:
         page_number = int(request.args["page"])
